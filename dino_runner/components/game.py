@@ -1,7 +1,10 @@
 import pygame
 
+
+from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
+#LLAMAMOS A LA CLASE DINOSAUR
 
 class Game:
     def __init__(self):
@@ -13,7 +16,11 @@ class Game:
         self.playing = False
         self.game_speed = 20
         self.x_pos_bg = 0
-        self.y_pos_bg = 380
+        #DEFINIMOS LA ALTURA A LA QUE ESTARA LA PISTA
+        self.y_pos_bg = 400
+
+        #LLAMAMOS AL JUGADOR MEDIANTE LA CLASE CREADA (DINOSAUR)
+        self.player = Dinosaur()
 
     def run(self):
         # Game loop: events - update - draw
@@ -30,12 +37,15 @@ class Game:
                 self.playing = False
 
     def update(self):
-        pass
+        #CAPTURA LA TECLA QUE EL USUARIO ESTA PRESIONANDO
+        user_input = pygame.key.get_pressed()
+        self.player.update(user_input)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
+        self.player.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
