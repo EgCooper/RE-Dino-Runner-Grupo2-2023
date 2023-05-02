@@ -2,7 +2,7 @@ import pygame
 
 
 from dino_runner.components.dinosaur import Dinosaur
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,WHITE,RED
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 #LLAMAMOS A LA CLASE DINOSAUR
 
@@ -14,10 +14,10 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
-        self.game_speed = 20
-        self.x_pos_bg = 0
+        self.game_speed = GAME_SPEED
+        self.x_pos_bg = SET_PIST_x
         #DEFINIMOS LA ALTURA A LA QUE ESTARA LA PISTA
-        self.y_pos_bg = 400
+        self.y_pos_bg = SET_PIST_Y
 
         #LLAMAMOS AL JUGADOR MEDIANTE LA CLASE CREADA (DINOSAUR)
         self.player = Dinosaur()
@@ -42,14 +42,18 @@ class Game:
     def update(self):
         #CAPTURA LA TECLA QUE EL USUARIO ESTA PRESIONANDO
         user_input = pygame.key.get_pressed()
+        #DINOSAURIO
         self.player.update(user_input)
+        #OBSTACULO
         self.obstacle_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
+        self.screen.fill(RED)
         self.draw_background()
+        #DINOSAURIO OBSTACULO
         self.player.draw(self.screen)
+        #OBSTACULO DIBUJO
         self.obstacle_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()

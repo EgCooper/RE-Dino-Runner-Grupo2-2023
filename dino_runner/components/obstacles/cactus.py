@@ -1,5 +1,6 @@
 #IMPRTAMOOS LA CLASE OBSTACLE
 from dino_runner.components.obstacles.obstacle import Obstacle
+from dino_runner.utils.constants import CACTUS_LARGE_Y,CACTUS_SMALL_Y
 import random
 
 #CREAMOS LA CLASE CACTUS Y HEREDAMOS A LA CLASE OSBTACLE
@@ -11,4 +12,14 @@ class Cactus(Obstacle):
         #LLAMAMOS A LOS METODOS DE LA CLASE PADRE (OSBTACLE)
         super().__init__(image,self.type)
         #DETERMINAMOS SU POSICION DEL CACTUS
-        self.rect.y = 340
+        self.rect.y = CACTUS_SMALL_Y
+
+
+#CREAMOS LA CLASE LARGECACTUS Y REUTILIZAMOS EL CODIGO DEL CACTUS PEQUEÑO A DIFERENCIA QUE ESTE ESTARA UBICADO EN OTRA POSICION 
+class LargeCactus(Obstacle):
+    def __init__(self, image):
+        self.type = random.randint(0,2)
+        super().__init__(image,self.type)
+        self.rect.y = CACTUS_LARGE_Y
+
+
