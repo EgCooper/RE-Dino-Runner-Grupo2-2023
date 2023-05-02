@@ -12,7 +12,7 @@ class Bird(Obstacle):
         #POSTERIORMENTE MODIFICARLO CON UNA CONDICIONAL
         self.index = 0
 
-    def draw(self,SCREEN):
+    def fly(self,SCREEN):
         #CONDICIONAL PRA CAMBIAR DE IMAGEN CONTANDO LOS PASOS
         if self.index >= 9:
             self.index = 0

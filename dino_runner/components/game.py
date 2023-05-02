@@ -4,6 +4,7 @@ import pygame
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,WHITE,RED
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.cloud import Cloud
 #LLAMAMOS A LA CLASE DINOSAUR
 
 class Game:
@@ -18,15 +19,16 @@ class Game:
         self.x_pos_bg = SET_PIST_x
         #DEFINIMOS LA ALTURA A LA QUE ESTARA LA PISTA
         self.y_pos_bg = SET_PIST_Y
-
-        #LLAMAMOS AL JUGADOR MEDIANTE LA CLASE CREADA (DINOSAUR)
+        #AGREGAMOS EL PLAYER (PLAYER)
         self.player = Dinosaur()
-
         #AGREGAMOS EL OBSTACLEMANAGER PARA AGREGAR LOS OBJETOS
         self.obstacle_manager = ObstacleManager()
+        #AGREGAMOS LA NUBE AL GAME
+        self.cloud = Cloud()
 
+
+    #METODO QUE CONTENDRA UN BUCLE QUE CORRERA EN ORDEN EL JUEGO (EVENTS,UPDATES,DRAW)
     def run(self):
-        # Game loop: events - update - draw
         self.playing = True
         while self.playing:
             self.events()
@@ -34,11 +36,14 @@ class Game:
             self.draw()
         pygame.quit()
 
+
+    #METODO PARA SALIR DEL JUEGO
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
 
+    #METODO PARA ACTUALIZAR
     def update(self):
         #CAPTURA LA TECLA QUE EL USUARIO ESTA PRESIONANDO
         user_input = pygame.key.get_pressed()
@@ -46,18 +51,25 @@ class Game:
         self.player.update(user_input)
         #OBSTACULO
         self.obstacle_manager.update(self)
+        #NUBE 
+        self.cloud.update()
 
+    #METODO PARA INSERTAR LAS IMAGENES
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill(RED)
+        self.screen.fill(WHITE)
         self.draw_background()
         #DINOSAURIO OBSTACULO
         self.player.draw(self.screen)
         #OBSTACULO DIBUJO
         self.obstacle_manager.draw(self.screen)
+        #NUBES
+        self.cloud.draw(self.screen)
+        #FUNCIONES PARA ACTUALIZAR LA PANTALLA
         pygame.display.update()
         pygame.display.flip()
 
+    #METODO PARA AGREGAR
     def draw_background(self):
         image_width = BG.get_width()
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))

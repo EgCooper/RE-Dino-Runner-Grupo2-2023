@@ -1,15 +1,15 @@
-from dino_runner.components.obstacles.cactus import Cactus,LargeCactus
+from dino_runner.components.obstacles.cactus import Small_Cactus,LargeCactus
 from dino_runner.utils.constants import SMALL_CACTUS,DELAY_QUIT,LARGE_CACTUS,BIRD
 from dino_runner.components.obstacles.bird import Bird
 import random
 import pygame
-
 #CREAMOS LA CLASE 
 class ObstacleManager:
     #AGREGAMOS SU METODO CONSTRUCTOR
     def __init__(self):
         #CREAMOS UNA VARIABLE DONDE ALMACENAREMOS LOS OBSTACULOS  U OBJETOS
         self.obstacles = []
+
 
     #METODO PARA VERIFICAR SI HAY OBSTACULOS EN PANTALLA O NO 
     def update(self, game):
@@ -19,7 +19,7 @@ class ObstacleManager:
             #CREAMOS OTRA CONDICIONAL PARA AGREGAR LOS DISTINTOS OBSTACULOS QUE TENEMOS
             #USAMOOS APPEND PARA AGREGAR EL OBSTACULO NUMERO 1 QUE SERIA EL CACTUS PEQUEÑO
             if random.randint(0,2) == 0:
-                self.obstacles.append(Cactus(SMALL_CACTUS))
+                self.obstacles.append(Small_Cactus(SMALL_CACTUS))
             #USAMOOS APPEND PARA AGREGAR EL OBSTACULO NUMERO 2 QUE SERIA EL CACTUS GRANDE
             elif random.randint(0,2) == 1:
                 self.obstacles.append(LargeCactus(LARGE_CACTUS))
@@ -27,8 +27,6 @@ class ObstacleManager:
             elif random.randint(0,2) == 2:
                 self.obstacles.append(Bird(BIRD))
 
-                
-                
         #CREAMOS UN BUCLE PARA VER SI EL JUGADOR (DINOSAURIO CHOCA CON UN OBSTACULO)
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed,self.obstacles) 

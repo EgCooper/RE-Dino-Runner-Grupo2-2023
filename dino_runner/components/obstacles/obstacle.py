@@ -19,6 +19,8 @@ class Obstacle(Sprite):
         if self.rect.x < -self.rect.width:
             #METODO PARA SACAR EL PRIMER ELEMNTO DE LA LISTAS
             obstacles.pop()
+
+    
     def draw(self,screen):
         #DIBUJAR EL OBSTACULO EN PANTALLA CON EL METODO BLIT QUE NOOS PEDIRA LA IMAGEN Y SU POSICION
         screen.blit(self.image[self.type],self.rect)
