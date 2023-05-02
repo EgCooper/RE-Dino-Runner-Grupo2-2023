@@ -57,7 +57,7 @@ class Game:
     #METODO PARA INSERTAR LAS IMAGENES
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill(WHITE)
+        self.screen.fill(RED)
         self.draw_background()
         #DINOSAURIO OBSTACULO
         self.player.draw(self.screen)
