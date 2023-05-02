@@ -2,12 +2,15 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Chrome Dino Runner"
+TITLE = "Game Dino Runner"
 #ALTURA
 SCREEN_HEIGHT = 600
 #ANCHURA
 SCREEN_WIDTH = 1100
-FPS = 30
+FPS = 60
+
+#DELAY FOR EXIT GAME
+DELAY_QUIT = 250
 
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
@@ -73,6 +76,7 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 DEFAULT_TYPE = "default"
+
 
 
 #CONSTANTES DE LA UBICACION DEL DINOSAURIO
