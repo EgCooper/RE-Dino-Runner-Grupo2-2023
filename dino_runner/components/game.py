@@ -2,8 +2,9 @@ import pygame
 
 
 from dino_runner.components.dinosaur import Dinosaur
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,WHITE,RED
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,RED,WHITE
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components import text_utils
 from dino_runner.components.cloud import Cloud
 #LLAMAMOS A LA CLASE DINOSAUR
 
@@ -25,16 +26,55 @@ class Game:
         self.obstacle_manager = ObstacleManager()
         #AGREGAMOS LA NUBE AL GAME
         self.cloud = Cloud()
+        #VARIABLE PARA CONTAR LOS PUNTOS
+        self.points = 0 
 
+        self.running = True
+
+        self.death_count = 0
 
     #METODO QUE CONTENDRA UN BUCLE QUE CORRERA EN ORDEN EL JUEGO (EVENTS,UPDATES,DRAW)
     def run(self):
+        self.obstacle_manager.reset_obstacles()
         self.playing = True
         while self.playing:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()
+    
+
+    def execute(self):
+        while self.running:
+            if not self.playing:
+                self.show_menu()
+
+
+    def show_menu(self):
+        self.running = True
+        self.screen.fill(WHITE)
+        self.print_menu_elements()
+        pygame.display.update()
+    
+
+    def print_menu_elements(self):
+        half_screen_height = SCREEN_HEIGHT // 2
+        half_screen_width = SCREEN_WIDTH // 2
+
+        if self.death_count == 0:
+            text,text_rect = text_utils.get_centered_message('Press Any Key to Start. ')
+            self.screen.blit(text, text_rect)
+ 
+
+    def handle_key_events_on_menu(self):
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    self.playing = False
+                    pygame.display.quit()
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.KEYDOWN:
+                    self.run()
 
 
     #METODO PARA SALIR DEL JUEGO
