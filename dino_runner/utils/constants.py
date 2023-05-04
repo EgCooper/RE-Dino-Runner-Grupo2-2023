@@ -65,6 +65,7 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird1.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
+DINO_ICO =[pygame.image.load(os.path.join(IMG_DIR, "Dino/Dino.png"))]
 
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
@@ -84,7 +85,7 @@ POSITION_X = 80
 POSITION_Y = 330
 
 #UBICACION DE LOS OBSTACULOS EN Y
-BIRD_POSITIONS_Y = (250,200,150)
+BIRD_POSITIONS_Y = (320,250,200,150,100,290)
 
 CACTUS_SMALL_Y = 340
 

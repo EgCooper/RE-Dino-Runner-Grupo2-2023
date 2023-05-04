@@ -1,8 +1,9 @@
-from dino_runner.components.obstacles.cactus import Small_Cactus,LargeCactus
-from dino_runner.utils.constants import SMALL_CACTUS,DELAY_QUIT,LARGE_CACTUS,BIRD
-from dino_runner.components.obstacles.bird import Bird
 import random
 import pygame
+from dino_runner.components.obstacles.cactus import Small_Cactus,LargeCactus
+from dino_runner.components.obstacles.bird import Bird
+from dino_runner.utils.constants import SMALL_CACTUS,DELAY_QUIT,LARGE_CACTUS,BIRD
+
 #CREAMOS LA CLASE 
 class ObstacleManager:
     #AGREGAMOS SU METODO CONSTRUCTOR
@@ -13,34 +14,32 @@ class ObstacleManager:
 
     #METODO PARA VERIFICAR SI HAY OBSTACULOS EN PANTALLA O NO 
     def update(self, game):
-
         #CREAMOS UNA CONDICIONAL QUE USARA EL METODO LEN PARA CONTAR LA LISTA  VER SI HAY O NO OBSTACULOS
         #Y POSTERIORMENTE AGREGAR 1 X 1
         if len(self.obstacles) == 0:
-            obstacle_type = random.randint(0,2)
-
+            options_obstacles = random.randint(0,2)
             #CREAMOS OTRA CONDICIONAL PARA AGREGAR LOS DISTINTOS OBSTACULOS QUE TENEMOS
             #USAMOOS APPEND PARA AGREGAR EL OBSTACULO NUMERO 1 QUE SERIA EL CACTUS PEQUEÑO
-            if obstacle_type == 0:
+            if options_obstacles == 0:
                 self.obstacles.append(Small_Cactus(SMALL_CACTUS))
             #USAMOOS APPEND PARA AGREGAR EL OBSTACULO NUMERO 2 QUE SERIA EL CACTUS GRANDE
-            elif obstacle_type == 1:
+            elif options_obstacles == 1:
                 self.obstacles.append(LargeCactus(LARGE_CACTUS))
             #AGREGAMOS EL ULTIMO OBJETO CON OTRA CONDICIONAL  obstaculo numero 3
-            elif obstacle_type == 2:
+            elif options_obstacles == 2:
                 self.obstacles.append(Bird(BIRD))   
-
         #CREAMOS UN BUCLE PARA VER SI EL JUGADOR (DINOSAURIO CHOCA CON UN OBSTACULO)
         for obstacle in self.obstacles:
-            obstacle.update(game.game_speed,self.obstacles) 
-            
+            obstacle.update(game.game_speed, self.obstacles) 
             #USAMOS EL METODO COLLIDERECT PARA SABER SI HUBO UN CHOQUE ENTRE EL JUGADOR Y OBSTACULOS
-            
             if game.player.dino_rect.colliderect(obstacle.rect):
             #AGREGAMOS DELAY CON LA FUNCION TIMDELAY
                 pygame.time.delay(DELAY_QUIT)
                 game.playing = False
+                #CUANDO EL JUGADOR MUERA EL CONTADOR DE MUERTES AUMENTARA
+                game.death_count+=1
                 break
+                
 
         
     #DIBUJAMOS LOS OBSTACULOS
