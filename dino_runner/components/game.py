@@ -124,7 +124,7 @@ class Game:
     def draw(self):
         self.score()
         self.clock.tick(FPS)
-     
+        
         self.draw_background()
         #DINOSAURIO OBSTACULO
         self.player.draw(self.screen)

@@ -5,7 +5,7 @@ import pygame
 
 
 #IMPORTAMOS LA CONSTANTE ESPECIFICA DE RUNNING
-from dino_runner.utils.constants import DEFAULT_TYPE, FONT_STYLE, RUNNING,POSITION_Y,POSITION_X,JUMP_VEL,JUMPING,DUCKING,DUCK_Y
+from dino_runner.utils.constants import DEFAULT_TYPE, FONT_STYLE, RUNNING,POSITION_Y,POSITION_X,JUMP_VEL,JUMPING,DUCKING,DUCK_Y,RUNNING_SHIELD
 
 
 #CREAMOS LA CLASE DINOSAURIO Y LA UBICAMOS EN LA VENTANA
@@ -28,6 +28,8 @@ class Dinosaur:
         self.dino_duck = False
         self.jump_vel = JUMP_VEL
         self.type = DEFAULT_TYPE
+
+        
         self.setup_state_booleans()
 
     def update(self,user_input):
@@ -65,13 +67,14 @@ class Dinosaur:
     def run(self):
         #RESETEAR DINOSARIO PARA QUE RETOME LA POSICION ORIGINAL, PARA CUANDO VUELVA A CORRER
         self.dino_rect.y = POSITION_Y
-
-        #CONDICIONAL PRA CAMBIAR DE IMAGEN CONTANDO LOS PASOS
+    
         if self.step_index < 5:
-            self.image = RUNNING[0]
+                self.image = RUNNING[0]
+    
         else:
-            self.image = RUNNING[1]
+                self.image = RUNNING[1]
         self.step_index +=1
+        
     
     
     def jump(self):
@@ -102,17 +105,17 @@ class Dinosaur:
         self.show_text = False
         self.shield_time_up = 0
         self.has_powerup = False
-
+### 
     def check_invincibility(self,screen):
         if self.shield:
             #CON ESTO VEREMOS CUANTO TIEMPO DURAR EL ESCUDO 
-            time_to_show = round ((self.shield_time_up - pygame.time.get_ticks())/100,2)
+            time_to_show = int(round ((self.shield_time_up - pygame.time.get_ticks())/1000,2))
             if time_to_show >= 0:
                 if self.show_text:
                     font = pygame.font.Font(FONT_STYLE,18)
-                    text = font.render(f'Shield enable for{time_to_show}', True, (0,0,0))
+                    text = font.render(f'Shield enable for:  {time_to_show}', True, (0,0,0))
                     textRect = text.get_rect()
-                    textRect.center = (500,400)
+                    textRect.center = (130,50)
                     screen.blit(text,textRect)
             else:
                 self.shield = False

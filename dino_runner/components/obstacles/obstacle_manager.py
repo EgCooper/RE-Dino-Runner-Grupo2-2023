@@ -37,9 +37,10 @@ class ObstacleManager:
             #AGREGAMOS DELAY CON LA FUNCION TIMDELAY
                     pygame.time.delay(DELAY_QUIT)
                     game.playing = False
-                    break
                 #CUANDO EL JUGADOR MUERA EL CONTADOR DE MUERTES AUMENTARA
                     game.death_count+=1
+                    break
+
                 else:
                     self.obstacles.remove(obstacle)
             
