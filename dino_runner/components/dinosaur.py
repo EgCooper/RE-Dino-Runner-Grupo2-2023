@@ -5,7 +5,7 @@ import pygame
 
 
 #IMPORTAMOS LA CONSTANTE ESPECIFICA DE RUNNING
-from dino_runner.utils.constants import RUNNING,POSITION_Y,POSITION_X,JUMP_VEL,JUMPING,DUCKING,DUCK_Y
+from dino_runner.utils.constants import DEFAULT_TYPE, FONT_STYLE, RUNNING,POSITION_Y,POSITION_X,JUMP_VEL,JUMPING,DUCKING,DUCK_Y
 
 
 #CREAMOS LA CLASE DINOSAURIO Y LA UBICAMOS EN LA VENTANA
@@ -27,7 +27,8 @@ class Dinosaur:
         self.dino_jump = False
         self.dino_duck = False
         self.jump_vel = JUMP_VEL
-
+        self.type = DEFAULT_TYPE
+        self.setup_state_booleans()
 
     def update(self,user_input):
         #ACTUALIZAMOS LOS ESTADOS Y LUEGO EJECUTAMOS LAS FUNCIONES
@@ -95,3 +96,23 @@ class Dinosaur:
         else:
             self.image = DUCKING[1]
         self.step_index +=1
+
+    def setup_state_booleans(self):
+        self.shield = False
+        self.show_text = False
+        self.shield_time_up = 0
+        self.has_powerup = False
+
+    def check_invincibility(self,screen):
+        if self.shield:
+            #CON ESTO VEREMOS CUANTO TIEMPO DURAR EL ESCUDO 
+            time_to_show = round ((self.shield_time_up - pygame.time.get_ticks())/100,2)
+            if time_to_show >= 0:
+                if self.show_text:
+                    font = pygame.font.Font(FONT_STYLE,18)
+                    text = font.render(f'Shield enable for{time_to_show}', True, (0,0,0))
+                    textRect = text.get_rect()
+                    textRect.center = (500,400)
+                    screen.blit(text,textRect)
+            else:
+                self.shield = False

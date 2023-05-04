@@ -33,12 +33,16 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles) 
             #USAMOS EL METODO COLLIDERECT PARA SABER SI HUBO UN CHOQUE ENTRE EL JUGADOR Y OBSTACULOS
             if game.player.dino_rect.colliderect(obstacle.rect):
+                if not game.player.shield:
             #AGREGAMOS DELAY CON LA FUNCION TIMDELAY
-                pygame.time.delay(DELAY_QUIT)
-                game.playing = False
+                    pygame.time.delay(DELAY_QUIT)
+                    game.playing = False
+                    break
                 #CUANDO EL JUGADOR MUERA EL CONTADOR DE MUERTES AUMENTARA
-                game.death_count+=1
-                break
+                    game.death_count+=1
+                else:
+                    self.obstacles.remove(obstacle)
+            
                 
 
         

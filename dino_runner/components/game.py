@@ -1,5 +1,6 @@
 import pygame
 from dino_runner.components.dinosaur import Dinosaur
+from dino_runner.components.power_ups.power_up_manager import Power_Up_Manager
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components import text_utils
 from dino_runner.utils.constants import BG, RUNNING,SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,WHITE,ICON
@@ -22,18 +23,22 @@ class Game:
         self.player = Dinosaur()
         #AGREGAMOS EL OBSTACLEMANAGER PARA AGREGAR LOS OBJETOS
         self.obstacle_manager = ObstacleManager()
+        #AGREGAMOS EL ATRIBUTO PARA EL POWERUPMANAGER
+        self.power_up_manager = Power_Up_Manager()
         #AGREGAMOS LA NUBE AL GAME
         self.cloud = Cloud()
         #VARIABLE PARA CONTAR LOS PUNTOS
         self.points = 0 
         self.death_count = 0
         self.running = True
+
         
 
     #METODO QUE CONTENDRA UN BUCLE QUE CORRERA EN ORDEN EL JUEGO (EVENTS,UPDATES,DRAW)
     def run(self):
         #RESETEAMOS 
         self.obstacle_manager.reset_obstacles()
+        self.power_up_manager.reset_power_ups(self.points)
         self.game_speed = GAME_SPEED
         self.points = 0
         self.playing = True
@@ -112,6 +117,8 @@ class Game:
         self.obstacle_manager.update(self)
         #NUBE 
         self.cloud.update()
+        #POWERUPS
+        self.power_up_manager.update(self.points, self.game_speed, self.player)
 
     #METODO PARA INSERTAR LAS IMAGENES
     def draw(self):
@@ -125,6 +132,8 @@ class Game:
         self.obstacle_manager.draw(self.screen)
         #NUBES
         self.cloud.draw(self.screen)
+        #POWERUPS
+        self.power_up_manager.draw(self.screen)
         
         #FUNCIONES PARA ACTUALIZAR LA PANTALLA
         pygame.display.update()
@@ -148,6 +157,7 @@ class Game:
         if self.points % 100 == 0 :
             self.game_speed += 1
         text, text_rect =text_utils.get_score_element(str(self.points))
+        self.player.check_invincibility(self.screen)
         self.screen.blit(text,text_rect)
 
    
