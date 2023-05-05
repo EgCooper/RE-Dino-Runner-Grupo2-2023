@@ -2,8 +2,9 @@ import pygame
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.power_ups.power_up_manager import Power_Up_Manager
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+
 from dino_runner.components import text_utils
-from dino_runner.utils.constants import BG, RUNNING,SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,WHITE,ICON
+from dino_runner.utils.constants import BG, GAME_SOUND, RUNNING, SCORE_SOUND,SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, GAME_SPEED, SET_PIST_Y, SET_PIST_x,WHITE,ICON
 from dino_runner.components.cloud import Cloud
 #LLAMAMOS A LA CLASE DINOSAUR
 
@@ -12,6 +13,7 @@ class Game:
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
+        GAME_SOUND.play()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
@@ -31,7 +33,7 @@ class Game:
         self.points = 0 
         self.death_count = 0
         self.running = True
-
+        
         
 
     #METODO QUE CONTENDRA UN BUCLE QUE CORRERA EN ORDEN EL JUEGO (EVENTS,UPDATES,DRAW)
@@ -39,6 +41,7 @@ class Game:
         #RESETEAMOS 
         self.obstacle_manager.reset_obstacles()
         self.power_up_manager.reset_power_ups(self.points)
+        GAME_SOUND.play()
         self.game_speed = GAME_SPEED
         self.points = 0
         self.playing = True
@@ -79,12 +82,15 @@ class Game:
                                                                 height=half_screen_height + 50)
             death, death_rect = text_utils.get_centered_message('Death count: ' + str(self.death_count),
                                                                 height=half_screen_height + 100)
+            
+            
             self.screen.blit(score, score_rect)
             self.screen.blit(text, text_rect)
             self.screen.blit(death, death_rect)
 
         self.screen.blit(RUNNING[0], (half_screen_width - 20, half_screen_height - 140))
- 
+           
+
 
     def handle_key_events_on_menu(self):
         for event in pygame.event.get():
@@ -156,6 +162,7 @@ class Game:
         #CONDICIONAL QUE CADA 100 AUMENTARA EL GAME SPEED DEL JUEGO
         if self.points % 100 == 0 :
             self.game_speed += 1
+            SCORE_SOUND.play()
         text, text_rect =text_utils.get_score_element(str(self.points))
         self.player.check_invincibility(self.screen)
         self.screen.blit(text,text_rect)

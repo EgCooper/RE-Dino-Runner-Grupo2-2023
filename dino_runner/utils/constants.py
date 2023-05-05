@@ -8,13 +8,13 @@ SCREEN_HEIGHT = 600
 #ANCHURA
 SCREEN_WIDTH = 1100
 FPS = 30
-
+pygame.mixer.init()
 
 
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
-ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
+ICON = pygame.image.load(os.path.join(IMG_DIR, "icodino.jpg"))
 
 RUNNING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),
@@ -73,6 +73,8 @@ HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 
 #AGREAMOS SHIELDTYPE
 SHIELD_TYPE = "shield"
+HAMMER_TYPE = "hammer"
+HAMMER_Y = 340
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
@@ -124,3 +126,11 @@ BLACK = (0,0,0)
 
 #FONTS
 FONT_STYLE = 'freesansbold.ttf'
+
+#SOUNDS
+DEATH_SOUND = pygame.mixer.Sound("lose.wav")
+GAME_SOUND = pygame.mixer.Sound("backGround.wav")
+JUMP_SOUND = pygame.mixer.Sound("jump.wav")
+UPGRADE_SOUND = pygame.mixer.Sound("ImpactF.wav")
+SCORE_SOUND = pygame.mixer.Sound("100pts.wav")
+

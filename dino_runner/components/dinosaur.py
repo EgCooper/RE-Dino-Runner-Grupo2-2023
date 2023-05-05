@@ -3,9 +3,8 @@
 from pygame.sprite import Sprite
 import pygame
 
-
 #IMPORTAMOS LA CONSTANTE ESPECIFICA DE RUNNING
-from dino_runner.utils.constants import DEFAULT_TYPE, FONT_STYLE, RUNNING,POSITION_Y,POSITION_X,JUMP_VEL,JUMPING,DUCKING,DUCK_Y,RUNNING_SHIELD
+from dino_runner.utils.constants import DEFAULT_TYPE, FONT_STYLE, JUMP_SOUND, RUNNING,POSITION_Y,POSITION_X,JUMP_VEL,JUMPING,DUCKING,DUCK_Y,RUNNING_SHIELD,DUCKING_SHIELD,JUMPING_SHIELD
 
 
 #CREAMOS LA CLASE DINOSAURIO Y LA UBICAMOS EN LA VENTANA
@@ -28,6 +27,7 @@ class Dinosaur:
         self.dino_duck = False
         self.jump_vel = JUMP_VEL
         self.type = DEFAULT_TYPE
+        
 
         
         self.setup_state_booleans()
@@ -50,6 +50,7 @@ class Dinosaur:
             self.dino_run = False
             self.dino_duck = False
             self.dino_jump = True
+            JUMP_SOUND.play()
         #Y SI NO ESTA SALTANDO ENTONCES ESTA CORRIENDO
         elif not self.dino_jump:
             self.dino_run = True
@@ -66,39 +67,72 @@ class Dinosaur:
     #INTERCALAR 2 SPRITES(IMAGENES) PARA PODER CREAR UNA VISTA DE QUE EL DINOSAURIO ESTE CORRIENDO
     def run(self):
         #RESETEAR DINOSARIO PARA QUE RETOME LA POSICION ORIGINAL, PARA CUANDO VUELVA A CORRER
-        self.dino_rect.y = POSITION_Y
-    
-        if self.step_index < 5:
-                self.image = RUNNING[0]
-    
-        else:
-                self.image = RUNNING[1]
-        self.step_index +=1
-        
-    
-    
-    def jump(self):
-        self.image = JUMPING
-        if self.dino_jump:
-            self.dino_rect.y  -= self.jump_vel * 4
-            self.jump_vel -= 0.8
-
-        if self.jump_vel < - JUMP_VEL:
-
+        if self.shield:
+            self.image = RUNNING_SHIELD
             self.dino_rect.y = POSITION_Y
-            self.dino_jump = False
-            self.jump_vel = JUMP_VEL
 
+            if self.step_index < 5:
+                    self.image = RUNNING_SHIELD[0]
+        
+            else:
+                    self.image = RUNNING_SHIELD[1]
+            self.step_index +=1
+        else:
+                self.image = RUNNING
+                self.dino_rect.y = POSITION_Y
+        
+                if self.step_index < 5:
+                    self.image = RUNNING[0]
+        
+                else:
+                    self.image = RUNNING[1]
+                self.step_index +=1
+         
+    def jump(self):
+        if self.shield:
+            self.image = JUMPING_SHIELD
+            if self.dino_jump:
+                self.dino_rect.y  -= self.jump_vel * 4
+                self.jump_vel -= 0.8
+                
+
+            if self.jump_vel < - JUMP_VEL:
+
+                self.dino_rect.y = POSITION_Y
+                self.dino_jump = False
+                self.jump_vel = JUMP_VEL
+        else:
+            self.image = JUMPING
+            if self.dino_jump:
+                self.dino_rect.y  -= self.jump_vel * 4
+                self.jump_vel -= 0.8
+
+            if self.jump_vel < - JUMP_VEL:
+
+                self.dino_rect.y = POSITION_Y
+                self.dino_jump = False
+                self.jump_vel = JUMP_VEL
+        
 
     def duck(self):
-        self.image = DUCKING [0]
-        #POSICIONAMOS AL DINOSAURIO DUCK EN LA PANTALLA
-        self.dino_rect.y = DUCK_Y
-        if self.step_index < 5:
-            self.image = DUCKING[0]
+        if self.shield:    
+            self.image = DUCKING_SHIELD [0]
+            #POSICIONAMOS AL DINOSAURIO DUCK EN LA PANTALLA
+            self.dino_rect.y = DUCK_Y
+            if self.step_index < 5:
+                self.image = DUCKING_SHIELD[0]
+            else:
+                self.image = DUCKING_SHIELD[1]
+            self.step_index +=1
         else:
-            self.image = DUCKING[1]
-        self.step_index +=1
+            self.image = DUCKING [0]
+            #POSICIONAMOS AL DINOSAURIO DUCK EN LA PANTALLA
+            self.dino_rect.y = DUCK_Y
+            if self.step_index < 5:
+                self.image = DUCKING[0]
+            else:
+                self.image = DUCKING[1]
+            self.step_index +=1
 
     def setup_state_booleans(self):
         self.shield = False
@@ -109,6 +143,7 @@ class Dinosaur:
     def check_invincibility(self,screen):
         if self.shield:
             #CON ESTO VEREMOS CUANTO TIEMPO DURAR EL ESCUDO 
+            
             time_to_show = int(round ((self.shield_time_up - pygame.time.get_ticks())/1000,2))
             if time_to_show >= 0:
                 if self.show_text:
@@ -119,3 +154,4 @@ class Dinosaur:
                     screen.blit(text,textRect)
             else:
                 self.shield = False
+               

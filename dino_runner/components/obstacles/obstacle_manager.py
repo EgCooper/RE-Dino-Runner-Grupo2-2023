@@ -1,8 +1,9 @@
 import random
 import pygame
+
 from dino_runner.components.obstacles.cactus import Small_Cactus,LargeCactus
 from dino_runner.components.obstacles.bird import Bird
-from dino_runner.utils.constants import SMALL_CACTUS,DELAY_QUIT,LARGE_CACTUS,BIRD
+from dino_runner.utils.constants import DEATH_SOUND, GAME_SOUND, SMALL_CACTUS,DELAY_QUIT,LARGE_CACTUS,BIRD
 
 #CREAMOS LA CLASE 
 class ObstacleManager:
@@ -10,6 +11,7 @@ class ObstacleManager:
     def __init__(self):
         #CREAMOS UNA VARIABLE DONDE ALMACENAREMOS LOS OBSTACULOS  U OBJETOS
         self.obstacles = []
+        
 
 
     #METODO PARA VERIFICAR SI HAY OBSTACULOS EN PANTALLA O NO 
@@ -37,6 +39,9 @@ class ObstacleManager:
             #AGREGAMOS DELAY CON LA FUNCION TIMDELAY
                     pygame.time.delay(DELAY_QUIT)
                     game.playing = False
+                    DEATH_SOUND.play()
+                    GAME_SOUND.stop()
+
                 #CUANDO EL JUGADOR MUERA EL CONTADOR DE MUERTES AUMENTARA
                     game.death_count+=1
                     break
